@@ -1,6 +1,12 @@
 import streamlit as st
 import requests
 from streamlit_autorefresh import st_autorefresh
+import os
+
+API_URL = os.getenv(
+    "API_URL",
+    "http://127.0.0.1:8000"
+)
 
 def display_report(report):
 
@@ -203,7 +209,7 @@ if page == "Dashboard":
 
     try:
         response = requests.get(
-            "http://127.0.0.1:8000/research"
+            f"{API_URL}/research"
         )
 
         if response.status_code == 200:
@@ -318,7 +324,7 @@ elif page == "New Research":
 
             try:
                 response = requests.post(
-                    "http://127.0.0.1:8000/research",
+                    f"{API_URL}/research",
                     json={"question": question}
                 )
 
@@ -357,7 +363,7 @@ elif page == "Research History":
 
     try:
         response = requests.get(
-            "http://127.0.0.1:8000/research"
+            f"{API_URL}/research"
         )
 
         if response.status_code == 200:
@@ -385,7 +391,7 @@ elif page == "Research History":
                         if st.button("View Report", key=research["research_id"]):
 
                             report_response = requests.get(
-                                f"http://127.0.0.1:8000/reports/{research['research_id']}"
+                                f"{API_URL}/reports/{research['research_id']}"
                                     )
 
                             # if report_response.status_code == 200:
@@ -441,7 +447,7 @@ elif page == "Workflow Monitor":
     try:
 
         response = requests.get(
-            "http://127.0.0.1:8000/research"
+            f"{API_URL}/research"
         )
 
         if response.status_code == 200:
@@ -484,7 +490,7 @@ elif page == "Workflow Monitor":
 
                 # Get workflow status
                 status_response = requests.get(
-                    f"http://127.0.0.1:8000/research/{selected_id}/status"
+                    f"{API_URL}/research/{selected_id}/status"
                 )
 
                 if status_response.status_code == 200:
@@ -606,7 +612,7 @@ elif page == "Workflow Monitor":
                         )
 
                         report_response = requests.get(
-                            f"http://127.0.0.1:8000/reports/{selected_id}"
+                            f"{API_URL}/reports/{selected_id}"
                         )
 
                         if report_response.status_code == 200:

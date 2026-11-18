@@ -1,0 +1,14 @@
+Swagger UI lets you test API endpoints directly from your browser without building a frontend.
+
+Method	Purpose	Example in our project
+GET	Retrieve data	Get previous research reports
+POST	Create/submit data	Submit a new research question
+PUT	Replace existing data	Replace a research record
+PATCH	Partially update data	Update research job status
+DELETE	Delete data	Delete a research report
+
+An endpoint is a specific URL through which an API provides a particular operation.
+
+FastAPI is a python framework, helps us build API
+
+Step 1: Create the POST /research endpoint--> Allow a user to submit a research question through an API and receive the generated market research report.

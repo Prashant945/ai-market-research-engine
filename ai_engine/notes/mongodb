@@ -1,0 +1,31 @@
+MongoDB will store For every research request, we'll store a document like this:
+{
+  "research_id": "RES_001",
+  "question": "Analyze the Indian EV market",
+  "status": "completed",
+  "created_at": "2026-11-10T10:00:00",
+  "report": {
+    "title": "Strategic Market Analysis",
+    "executive_summary": "...",
+    "sections": []
+  }
+}
+
+Why MongoDB? It stores data as flexible JSON-like documents
+
+Install the MongoDB Python library: python -m pip install pymongo
+
+
+
+
+prashantagarwal945_db_user
+piCPdqUwE7hi2U13
+
+mongodb+srv://<db_username>:<db_password>@cluster0.6gadrfz.mongodb.net/
+
+
+MongoDB	    Similar concept
+Database	Database
+Collection	Table
+Document	Row/record
+Field	    Column/property

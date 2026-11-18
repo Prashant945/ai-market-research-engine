@@ -1,0 +1,6 @@
+We'll implement this in five steps:
+1. Create shared State.
+2. Create Nodes.
+3. Connect Nodes using Edges.
+4. Add Conditional Edges and retry logic.
+5. Compile and execute the workflow.

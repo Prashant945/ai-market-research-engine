@@ -1,12 +1,10 @@
-
-# Environment variables and secrets
+# Environment variables
 .env
 .streamlit/secrets.toml
 
 # Python
 __pycache__/
 *.py[cod]
-*.pyo
 
 # Virtual environments
 venv/
@@ -16,6 +14,5 @@ env/
 # IDE
 .vscode/
 
-# Logs and temporary files
+# Logs
 *.log
-.DS_Store

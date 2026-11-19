@@ -334,6 +334,15 @@ elif page == "New Research":
 
                     result = response.json()
 
+                    
+
+                    st.write("Response URL:", response.url)
+                    st.write("Status Code:", response.status_code)
+                    st.write("Actual Response:", result)
+                    st.write("Available Keys:", list(result.keys()))
+
+
+
                     # research_id = result["research"][0]["research_id"] or 
                     research_id = result["research_id"]
                     st.write(research_id)

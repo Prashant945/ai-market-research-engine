@@ -5,22 +5,9 @@ import os
 
 
 
-# API_URL = st.secrets.get(
-#     "API_URL",
-#     os.getenv("API_URL", "http://127.0.0.1:8000")
-# ).rstrip("/")
-
-
-
-try:
-    API_URL = st.secrets.get("API_URL")
-except (FileNotFoundError, KeyError):
-    API_URL = None
-
-API_URL = (
-    API_URL
-    or os.getenv("API_URL")
-    or "http://127.0.0.1:8000"
+API_URL = st.secrets.get(
+    "API_URL",
+    os.getenv("API_URL", "http://127.0.0.1:8000")
 ).rstrip("/")
 
 def display_report(report):
@@ -282,8 +269,6 @@ if page == "Dashboard":
         st.error("Backend server is not running.")
 
 # New Research page
-
-
 # elif page == "New Research":
 
 #     st.header("Start New Research")
@@ -326,88 +311,6 @@ if page == "Dashboard":
 #         else:
 #             st.warning("Please enter a research question.")
 
-# elif page == "New Research":    ## this one
-
-#     st.header("Start New Research")
-
-#     question = st.text_area(
-#         "Enter your business research question",
-#         placeholder="Example: Analyze the Indian EV market..."
-#     )
-
-#     if st.button("Start Research"):
-
-#         if question.strip():
-
-#             try:
-#                 response = requests.post(
-#                     f"{API_URL}/research",
-#                     json={"question": question}
-#                 )
-#                 st.write("Request Method:", response.request.method)    #####
-#                 st.write("Request URL:", response.url)
-#                 st.write("Response Status:", response.status_code)
-#                 st.write("Response Body:")
-#                 st.json(response.json())
-
-#                 if response.status_code == 200:
-
-#                     # result = response.json()
-                    
-#                     # research_id = result["research_id"]
-
-#                     # st.session_state["monitor_research_id"] = research_id
-
-#                     # Check HTTP response
-#                     st.write("Response Status:", response.status_code)
-
-#                     # Convert response into JSON
-#                     try:
-#                         result = response.json()
-#                     except ValueError:
-#                         st.error("Backend did not return valid JSON.")
-#                         st.code(response.text)
-#                         st.stop()
-
-#                     # Check whether research_id exists
-#                     research_id = result.get("research_id")
-
-#                     if not response.ok:
-#                         st.error("Research submission failed.")
-#                         st.json(result)
-#                         st.stop()
-
-#                     if not research_id:
-#                         st.error("Backend response does not contain research_id.")
-#                         st.write("Actual backend response:")
-#                         st.json(result)
-#                         st.stop()
-
-#                     # Store research ID
-#                     st.session_state["monitor_research_id"] = research_id
-
-#                     st.success("Research submitted successfully!")
-                    
-
-#                     st.success("Research workflow started successfully!")
-
-#                     st.write("Research ID:", research_id)
-
-#                     st.info(
-#                         "Go to Workflow Monitor to track your AI agents."
-#                     )
-
-#                 else:
-#                     st.error(f"API Error: {response.text}")
-
-#             except requests.exceptions.ConnectionError:
-#                 st.error("Cannot connect to FastAPI.")
-
-#         else:
-#             st.warning("Please enter a research question.")
-
-
-
 elif page == "New Research":
 
     st.header("Start New Research")
@@ -422,60 +325,32 @@ elif page == "New Research":
         if question.strip():
 
             try:
-                with st.spinner("Starting AI research workflow..."):
+                response = requests.post(
+                    f"{API_URL}/research",
+                    json={"question": question}
+                )
 
-                    submit_response = requests.post(
-                        f"{API_URL}/research",
-                        json={"question": question},
-                        timeout=60
+                if response.status_code == 200:
+
+                    result = response.json()
+
+                    research_id = result["research_id"]
+
+                    st.session_state["monitor_research_id"] = research_id
+
+                    st.success("Research workflow started successfully!")
+
+                    st.write("Research ID:", research_id)
+
+                    st.info(
+                        "Go to Workflow Monitor to track your AI agents."
                     )
 
-                # Debug the actual POST request
-                st.write(
-                    "Submission method:",
-                    submit_response.request.method
-                )
-                st.write(
-                    "Submission URL:",
-                    submit_response.url
-                )
-                st.write(
-                    "Response status:",
-                    submit_response.status_code
-                )
+                else:
+                    st.error(f"API Error: {response.text}")
 
-                try:
-                    result = submit_response.json()
-                except ValueError:
-                    st.error("Backend returned an invalid response.")
-                    st.code(submit_response.text)
-                    st.stop()
-
-                if submit_response.status_code not in [200, 202]:
-                    st.error("Research submission failed.")
-                    st.json(result)
-                    st.stop()
-
-                research_id = result.get("research_id")
-
-                if not research_id:
-                    st.error(
-                        "POST response does not contain research_id."
-                    )
-                    st.json(result)
-                    st.stop()
-
-                st.session_state["monitor_research_id"] = research_id
-
-                st.success("Research workflow started successfully!")
-                st.write("Research ID:", research_id)
-
-                st.info(
-                    "Go to Workflow Monitor to track your AI agents."
-                )
-
-            except requests.exceptions.RequestException as e:
-                st.error(f"API connection error: {e}")
+            except requests.exceptions.ConnectionError:
+                st.error("Cannot connect to FastAPI.")
 
         else:
             st.warning("Please enter a research question.")

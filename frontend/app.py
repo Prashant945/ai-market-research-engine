@@ -335,7 +335,7 @@ elif page == "New Research":
                     result = response.json()
 
                     research_id = result["research"][0]["research_id"]
-                    #st.write(result)
+                    st.write(research_id)
 
                     st.session_state["monitor_research_id"] = research_id
 

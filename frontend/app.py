@@ -272,25 +272,15 @@ elif page == "New Research":
                     f"{API_URL}/research",
                     json={"question": question}
                 )
-                
+
                 st.write("HTTP METHOD:", response.request.method)
 
                 if response.status_code == 200:
 
                     result = response.json()
 
-                    
-
-                    st.write("Response URL:", response.url)
-                    st.write("Status Code:", response.status_code)
-                    st.write("Actual Response:", result)
-                    st.write("Available Keys:", list(result.keys()))
-
-
-
                     # research_id = result["research"][0]["research_id"] or 
                     research_id = result["research_id"]
-                    st.write(research_id)
 
                     st.session_state["monitor_research_id"] = research_id
 

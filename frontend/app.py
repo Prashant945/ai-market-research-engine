@@ -282,6 +282,8 @@ if page == "Dashboard":
         st.error("Backend server is not running.")
 
 # New Research page
+
+
 # elif page == "New Research":
 
 #     st.header("Start New Research")
@@ -342,6 +344,11 @@ elif page == "New Research":
                     f"{API_URL}/research",
                     json={"question": question}
                 )
+                st.write("Request Method:", response.request.method)    #####
+                st.write("Request URL:", response.url)
+                st.write("Response Status:", response.status_code)
+                st.write("Response Body:")
+                st.json(response.json())
 
                 if response.status_code == 200:
 

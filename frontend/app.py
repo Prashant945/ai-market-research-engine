@@ -5,9 +5,22 @@ import os
 
 
 
-API_URL = st.secrets.get(
-    "API_URL",
-    os.getenv("API_URL", "http://127.0.0.1:8000")
+# API_URL = st.secrets.get(
+#     "API_URL",
+#     os.getenv("API_URL", "http://127.0.0.1:8000")
+# ).rstrip("/")
+
+
+
+try:
+    API_URL = st.secrets.get("API_URL")
+except (FileNotFoundError, KeyError):
+    API_URL = None
+
+API_URL = (
+    API_URL
+    or os.getenv("API_URL")
+    or "http://127.0.0.1:8000"
 ).rstrip("/")
 
 def display_report(report):
@@ -333,10 +346,11 @@ elif page == "New Research":
                 if response.status_code == 200:
 
                     result = response.json()
-
+                    
                     research_id = result["research_id"]
 
                     st.session_state["monitor_research_id"] = research_id
+                    
 
                     st.success("Research workflow started successfully!")
 

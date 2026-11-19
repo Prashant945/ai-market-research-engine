@@ -345,11 +345,41 @@ elif page == "New Research":
 
                 if response.status_code == 200:
 
-                    result = response.json()
+                    # result = response.json()
                     
-                    research_id = result["research_id"]
+                    # research_id = result["research_id"]
 
+                    # st.session_state["monitor_research_id"] = research_id
+
+                    # Check HTTP response
+                    st.write("Response Status:", response.status_code)
+
+                    # Convert response into JSON
+                    try:
+                        result = response.json()
+                    except ValueError:
+                        st.error("Backend did not return valid JSON.")
+                        st.code(response.text)
+                        st.stop()
+
+                    # Check whether research_id exists
+                    research_id = result.get("research_id")
+
+                    if not response.ok:
+                        st.error("Research submission failed.")
+                        st.json(result)
+                        st.stop()
+
+                    if not research_id:
+                        st.error("Backend response does not contain research_id.")
+                        st.write("Actual backend response:")
+                        st.json(result)
+                        st.stop()
+
+                    # Store research ID
                     st.session_state["monitor_research_id"] = research_id
+
+                    st.success("Research submitted successfully!")
                     
 
                     st.success("Research workflow started successfully!")

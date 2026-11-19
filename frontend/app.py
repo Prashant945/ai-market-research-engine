@@ -334,14 +334,14 @@ elif page == "New Research":
 
                     result = response.json()
 
-                    #research_id = result["research_id"]
+                    research_id = result[0]["research_id"]
                     st.write(result)
 
-                    #st.session_state["monitor_research_id"] = result["research_id"]
+                    st.session_state["monitor_research_id"] = result["research_id"]
 
                     st.success("Research workflow started successfully!")
 
-                    #st.write("Research ID:", result["research_id"])
+                    st.write("Research ID:", result["research_id"])
 
                     st.info(
                         "Go to Workflow Monitor to track your AI agents."

@@ -99,17 +99,7 @@ def display_report(report):
 {report['scope_and_methodology']}
 
 ## Research Findings
-
 """
-
-#     for section in report["sections"]:
-#         report_markdown += f"""
-#     ### {section['heading']}
-
-# {section['content']}
-
-# **Sources:** {', '.join(section.get('source_ids', []))}
-# """
     sources_by_id = {
     source["source_id"]: source
     for source in report.get("sources", [])
@@ -186,14 +176,7 @@ st.write(
 
 st.sidebar.title("Navigation")
 
-# page = st.sidebar.radio(
-#     "Go to",
-#     [
-#         "Dashboard",
-#         "New Research",
-#         "Research History"
-#     ]
-# )
+
 page = st.sidebar.radio(
     "Go to",
     [
@@ -269,47 +252,7 @@ if page == "Dashboard":
         st.error("Backend server is not running.")
 
 # New Research page
-# elif page == "New Research":
 
-#     st.header("Start New Research")
-
-#     question = st.text_area(
-#         "Enter your business research question",
-#         placeholder="Example: Analyze the Indian EV market..."
-#     )
-
-#     if st.button("Start Research"):
-
-#         if question.strip():
-
-#             try:
-#                 with st.spinner("AI agents are conducting research..."):
-
-#                     response = requests.post(
-#                         "http://127.0.0.1:8000/research",
-#                         json={"question": question}
-#                     )
-
-#                 if response.status_code == 200:
-
-#                     result = response.json()
-
-#                     st.success("Research completed successfully!")
-
-#                     st.write("Research ID:", result["research_id"])
-
-#                     st.subheader("Generated Research Report")
-
-#                     st.json(result["report"])
-
-#                 else:
-#                     st.error(f"API Error: {response.text}")
-
-#             except requests.exceptions.ConnectionError:
-#                 st.error("Cannot connect to FastAPI. Please start your backend.")
-
-#         else:
-#             st.warning("Please enter a research question.")
 
 elif page == "New Research":
 
@@ -329,6 +272,8 @@ elif page == "New Research":
                     f"{API_URL}/research",
                     json={"question": question}
                 )
+                
+                st.write("HTTP METHOD:", response.request.method)
 
                 if response.status_code == 200:
 
